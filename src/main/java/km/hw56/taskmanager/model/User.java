@@ -2,6 +2,7 @@ package km.hw56.taskmanager.model;
 
 import km.hw56.taskmanager.util.Generator;
 import lombok.Data;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,7 +16,7 @@ import java.util.UUID;
 @Data
 @Document(collection = "users")
 public class User implements UserDetails {
-
+    @Id
     private String id = UUID.randomUUID().toString();
     private String username;
     private String email;
