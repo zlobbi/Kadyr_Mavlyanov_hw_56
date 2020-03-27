@@ -47,4 +47,14 @@ public class Task {
         t.setStatus(status);
         return t;
     }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id='" + id + '\'' +
+                ", headline='" + headline + '\'' +
+                ", status='" + status + '\'' +
+                ", user='" + user.getEmail() + '\'' +
+                '}';
+    }
 }

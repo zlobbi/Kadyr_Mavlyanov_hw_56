@@ -28,7 +28,7 @@ public class User implements UserDetails {
         u.setUsername(Generator.makeName());
         u.setEmail(Generator.makeEmail() + ".com");
         u.setNotEncodedPass(Generator.makePassword());
-        u.setPassword(new BCryptPasswordEncoder().encode(u.getPassword()));
+        u.setPassword(new BCryptPasswordEncoder().encode(u.getNotEncodedPass()));
         return u;
     }
 
@@ -39,6 +39,16 @@ public class User implements UserDetails {
         u.setNotEncodedPass(notEncodedPass);
         u.setPassword(new BCryptPasswordEncoder().encode(u.getPassword()));
         return u;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", username='" + username + '\'' +
+                ", notEncodedPassword='" + notEncodedPass + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 
     @Override
