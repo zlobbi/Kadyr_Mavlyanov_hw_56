@@ -2,8 +2,6 @@ package km.hw56.taskmanager.service;
 
 import km.hw56.taskmanager.model.User;
 import km.hw56.taskmanager.repository.UserRepository;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -24,7 +22,7 @@ public class UserAuthService implements UserDetailsService {
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         Optional<User> user = repo.findByUsername(s);
         if (user.isPresent())
-            return user.get();
+                return user.get();
 
         throw new UsernameNotFoundException("User does not exit");
     }

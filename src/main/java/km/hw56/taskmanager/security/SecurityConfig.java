@@ -33,16 +33,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // должно быть доступно только
         // после авторизации пользователя
         http.authorizeRequests()
-                .antMatchers("/publications/add").fullyAuthenticated()
-                .antMatchers("/publications/other").fullyAuthenticated()
-                .antMatchers("/publications/").fullyAuthenticated()
-                .antMatchers("/publications/delete/*").fullyAuthenticated();
-        ;
+                .antMatchers("/tasks").hasRole("ADMIN");
+
 
         // Правило 2: Разрешить всё остальные запросы
-        http.authorizeRequests()
-                .anyRequest()
-                .permitAll();
+//        http.authorizeRequests()
+//                .anyRequest()
+//                .permitAll();
 
         // Настраиваем хранение сессий. Не храним сессию.
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

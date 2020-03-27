@@ -10,17 +10,19 @@ import java.time.LocalDate;
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
-public class TaskDTO {
+public class TaskDTOforAdmin {
     private String id;
+    private String userEmail;
     private String headline;
     private TaskStatus status;
     private LocalDate date;
 
-    public static TaskDTO from(Task t) {
+    public static TaskDTOforAdmin from(Task t) {
         return builder()
                 .id(t.getId())
                 .headline(t.getHeadline())
                 .status(t.getStatus())
+                .userEmail(t.getUser().getEmail())
                 .date(t.getDate())
                 .build();
     }
