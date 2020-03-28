@@ -32,8 +32,10 @@ public class DatabasePreloader {
             List<Task> tasks = new ArrayList<>();
             while (i < 30) {
                 var u = users.get(r.nextInt(users.size()));
+                u.plusTask();
                 var t = Task.make(u);
                 tasks.add(t);
+                users.add(u);
                 i++;
             }
 

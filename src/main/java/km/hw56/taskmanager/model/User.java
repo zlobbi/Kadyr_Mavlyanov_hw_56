@@ -26,6 +26,7 @@ public class User implements UserDetails {
     private String password;
     private String notEncodedPass;
     private UserRole role;
+    private int tasks;
 
     public static User make() {
         User u = new User();
@@ -42,9 +43,16 @@ public class User implements UserDetails {
         u.setUsername(username);
         u.setEmail(email);
         u.setNotEncodedPass(notEncodedPass);
-        u.setPassword(new BCryptPasswordEncoder().encode(u.getPassword()));
+        u.setPassword(new BCryptPasswordEncoder().encode(u.getNotEncodedPass()));
         u.setRole(UserRole.values()[r.nextInt(3)]);
         return u;
+    }
+
+    public void plusTask() {
+        this.tasks++;
+    }
+    public void minusTask() {
+        this.tasks--;
     }
 
     @Override
@@ -54,6 +62,7 @@ public class User implements UserDetails {
                 ", role='" + role + '\'' +
                 ", username='" + username + '\'' +
                 ", notEncodedPassword='" + notEncodedPass + '\'' +
+                ", tasksCount='" + tasks + '\'' +
                 ", email='" + email + '\'' +
                 '}';
     }

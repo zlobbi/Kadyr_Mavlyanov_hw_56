@@ -38,7 +38,7 @@ public class Task {
     }
 
     public static Task make(String headline, String description, LocalDate date,
-                            User user,  TaskStatus status) {
+                            User user, TaskStatus status) {
         Task t = new Task();
         t.setHeadline(headline);
         t.setDescription(description);
