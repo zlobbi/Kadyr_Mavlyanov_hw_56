@@ -11,5 +11,7 @@ public interface TaskRepository extends PagingAndSortingRepository<Task, String>
 
     boolean existsByUserIdAndStatus(String id, TaskStatus completed);
 
+    boolean existsByIdAndUserId(String taskId, String userId);
+
     void deleteAllByUserIdAndStatus(String userId, TaskStatus taskStatus);
 }

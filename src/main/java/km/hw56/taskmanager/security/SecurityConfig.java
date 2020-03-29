@@ -34,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // после авторизации пользователя
         http.authorizeRequests()
                 .antMatchers("/tasks").hasRole("ADMIN")
-                .antMatchers("/mytasks").fullyAuthenticated()
+                .antMatchers("/mytasks/**").fullyAuthenticated()
                 .antMatchers("/dct").fullyAuthenticated();
 
         // Правило 2: Разрешить всё остальные запросы

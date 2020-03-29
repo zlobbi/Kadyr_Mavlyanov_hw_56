@@ -11,10 +11,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 @Service
 public class TaskService {
@@ -47,10 +47,29 @@ public class TaskService {
         return msg;
     }
 
-    public String addTaskForAuthUser(String headline, String description, String date, String status) {
-        Task t = Task.make(headline, description, LocalDate.parse(date), getUser(), TaskStatus.valueOf(status.toUpperCase()));
+    public String addTaskForAuthUser(String headline, String description, String date) {
+        Task t = Task.make(headline, description, LocalDate.parse(date), getUser(), TaskStatus.NEW);
         taskRepository.save(t);
         return "Task added";
+    }
+
+    public Object changeStatusOfTask(String taskId) {
+        if(taskRepository.existsByIdAndUserId(taskId, getUser().getId())) {
+            var t = taskRepository.findById(taskId).get();
+            if(t.getStatus() == TaskStatus.NEW) {
+                t.setStatus(TaskStatus.PROCESS);
+                taskRepository.save(t);
+                return TaskDTO.from(t);
+            } else if(t.getStatus() == TaskStatus.PROCESS) {
+                t.setStatus(TaskStatus.COMPLETED);
+                taskRepository.save(t);
+                return TaskDTO.from(t);
+            } else {
+                taskRepository.delete(t);
+                return t.getHeadline() + " deleted, because completed!";
+            }
+        }
+        return "Task not found or it's not your task!";
     }
 
     public User getUser() {

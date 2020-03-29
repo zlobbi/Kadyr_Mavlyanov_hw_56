@@ -26,11 +26,26 @@ public class Controller {
         return userService.addUser(username, email, password);
     }
 
-    @PutMapping("/tasks/add")
-    public String addTaskForUser(@RequestParam String headline, @RequestParam String description,
-                                 @RequestParam String date, @RequestParam String status) {
+    @ApiPageable
+    @RequestMapping("/mytasks")
+    public Slice<TaskDTO> getUserTasks(@ApiIgnore Pageable pageable) {
+        return taskService.tasksForAuthUser(pageable);
+    }
 
-        return taskService.addTaskForAuthUser(headline, description, date, status);
+    @PutMapping("/mytasks/add")
+    public String addTaskForUser(@RequestParam String headline, @RequestParam String description,
+                                 @RequestParam String date) {
+        return taskService.addTaskForAuthUser(headline, description, date);
+    }
+
+    @RequestMapping("/mytasks/status/{taskId}")
+    public Object changeStatus(@PathVariable("taskId") String taskId) {
+        return taskService.changeStatusOfTask(taskId);
+    }
+
+    @DeleteMapping("/mytasks/dct")
+    public String deleteCompletedTasks() {
+        return taskService.deleteAllCompletedTasksOfAuthUser();
     }
 
     @ApiPageable
@@ -39,14 +54,14 @@ public class Controller {
         return taskService.tasksForAdmin(pageable);
     }
 
-    @ApiPageable
-    @RequestMapping("/mytasks")
-    public Slice<TaskDTO> getUserTasks(@ApiIgnore Pageable pageable) {
-        return taskService.tasksForAuthUser(pageable);
-    }
-
-    @DeleteMapping("/dct")
-    public String deleteCompletedTasks() {
-        return taskService.deleteAllCompletedTasksOfAuthUser();
+    @GetMapping
+    public String getRootMessage() {
+        return "Path's: /register ----------------- to register \n" +
+                "        /mytasks ------------------ view auth tasks \n" +
+                "        /mytasks/add -------------- to add task \n" +
+                "        /mytasks/status/{taskId} -- to automatic change status \n" +
+                "        /mytasks/dct -------------- to delete auth completed tasks \n" +
+                "ROLE_ADMIN path: \n" +
+                "        /tasks -------------------- to view all tasks in db";
     }
 }
